@@ -1,5 +1,6 @@
 import { Role } from 'src/model/role.enum';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import { hashSync } from 'bcrypt';
 
 @Entity()
 export class User {
@@ -14,4 +15,9 @@ export class User {
 
   @Column({ type: 'enum', enum: Role, default: Role.User })
   roles: Role[];
+
+  @BeforeInsert()
+  hashPassword() {
+    this.password = hashSync(this.password, 10);
+  }
 }
