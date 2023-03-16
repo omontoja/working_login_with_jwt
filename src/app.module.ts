@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -18,11 +19,11 @@ import { AuthService } from './auth/auth.service';
       database: process.env.PG_DATABASE,
       entities: [User],
       synchronize: true,
-    }),
+    } as TypeOrmModuleOptions),
     UsersModule,
     AuthModule,
   ],
   controllers: [],
-  providers: [AuthService],
+  providers: [AuthService, JwtService],
 })
 export class AppModule {}
