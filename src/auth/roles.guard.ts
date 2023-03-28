@@ -12,7 +12,7 @@ export class RolesGuard implements CanActivate {
       context.getClass(),
     ]);
     console.log('print do rolesguard: ' + requiredRoles);
-    console.log('print !rolesguard: ' + !requiredRoles);
+
     if (!requiredRoles) {
       return true;
     }
