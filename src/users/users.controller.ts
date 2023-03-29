@@ -1,4 +1,6 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger/dist/decorators';
+import { ApiBearerAuth } from '@nestjs/swagger/dist/decorators/api-bearer.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -6,6 +8,8 @@ import { Role } from 'src/model/role.enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 
+@ApiTags('User operations')
+@ApiBearerAuth()
 @Controller('users')
 @UseGuards(JwtAuthGuard)
 export class UsersController {
@@ -17,10 +21,9 @@ export class UsersController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.User)
+  @Roles(Role.Admin)
   @Get()
   findAll() {
-    // console.log(request.arguments);
     return this.usersService.findAll();
   }
 
@@ -28,25 +31,6 @@ export class UsersController {
   findOne(@Param('id') registration: number) {
     return this.usersService.findOne(+registration);
   }
-
-  // @HasRoles(Role.Admin)
-  // @UseGuards(RolesGuard)
-  // @Get('admin')
-  // onlyAdmin(@Request() req) {
-  //   return req.user;
-  // }
-
-  // @HasRoles(Role.User)
-  // @UseGuards(RolesGuard)
-  // @Get('user')
-  // onlyUser(@Request() req) {
-  //   return req.user;
-  // }
-
-  // @Get(':username')
-  // findUser(@Param('username') username: string) {
-  //   return this.usersService.findUser(username);
-  // }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

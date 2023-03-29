@@ -31,11 +31,6 @@ export class UsersService {
     return result;
   }
 
-  // async findUser(username: string) {
-  //   const result = await this.usersRepository.findOneBy({ username });
-  //   return result;
-  // }
-
   // update(id: number, updateUserDto: UpdateUserDto) {
   //   return `This action updates a #${id} user`;
   // }
