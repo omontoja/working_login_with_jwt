@@ -13,11 +13,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    console.log(payload);
     return {
       registration: payload.sub,
       username: payload.username,
-      role: payload.roles, //não puxando
+      role: payload.role,
     };
   }
 }
