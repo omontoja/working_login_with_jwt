@@ -1,21 +1,10 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/auth/roles.decorator';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Role } from 'src/model/role.enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
-import { request } from 'http';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -28,7 +17,7 @@ export class UsersController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.User) // não passando nem com adm - apagar isso faz passar a chamada - forbidden
+  @Roles(Role.User)
   @Get()
   findAll() {
     // console.log(request.arguments);
