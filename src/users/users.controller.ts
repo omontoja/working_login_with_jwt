@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger/dist/decorators';
+import { ApiOperation, ApiTags } from '@nestjs/swagger/dist/decorators';
 import { ApiBearerAuth } from '@nestjs/swagger/dist/decorators/api-bearer.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles.decorator';
@@ -16,6 +16,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create user' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
@@ -23,11 +24,13 @@ export class UsersController {
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
   @Get()
+  @ApiOperation({ summary: 'Get all' })
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get one' })
   findOne(@Param('id') registration: number) {
     return this.usersService.findOne(+registration);
   }

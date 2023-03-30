@@ -1,6 +1,6 @@
-import { Controller, Post, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiTags } from '@nestjs/swagger/dist';
+import { ApiOperation, ApiTags } from '@nestjs/swagger/dist';
 import { AuthService } from './auth.service';
 
 @ApiTags('Login')
@@ -10,6 +10,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
+  @ApiOperation({ summary: 'Login' })
   async login(@Req() req: any) {
     return this.authService.login(req.user);
   }
